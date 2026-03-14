@@ -1,26 +1,55 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --background: #080418;
+  --foreground: #ededed;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+canvas {
+  display: block;
+}
+
+@keyframes violentShake {
+  0% { transform: translate(0, 0) rotate(0deg); }
+  5% { transform: translate(-12px, 8px) rotate(-2deg); }
+  10% { transform: translate(10px, -10px) rotate(2.5deg); }
+  15% { transform: translate(-14px, -6px) rotate(-1.5deg); }
+  20% { transform: translate(8px, 12px) rotate(3deg); }
+  25% { transform: translate(-10px, 4px) rotate(-3deg); }
+  30% { transform: translate(14px, -8px) rotate(1.5deg); }
+  35% { transform: translate(-6px, 10px) rotate(-2.5deg); }
+  40% { transform: translate(12px, -4px) rotate(2deg); }
+  45% { transform: translate(-8px, -12px) rotate(-1deg); }
+  50% { transform: translate(6px, 8px) rotate(2deg); }
+  55% { transform: translate(-10px, -4px) rotate(-2deg); }
+  60% { transform: translate(8px, 6px) rotate(1.5deg); }
+  65% { transform: translate(-4px, -8px) rotate(-1deg); }
+  70% { transform: translate(6px, 4px) rotate(1deg); }
+  75% { transform: translate(-4px, -4px) rotate(-0.5deg); }
+  80% { transform: translate(3px, 3px) rotate(0.5deg); }
+  85% { transform: translate(-2px, -2px) rotate(-0.3deg); }
+  90% { transform: translate(1px, 1px) rotate(0.2deg); }
+  95% { transform: translate(-1px, 0px) rotate(0deg); }
+  100% { transform: translate(0, 0) rotate(0deg); }
+}
+
+.violent-shake {
+  animation: violentShake 1.2s ease-out;
+}
+
+@keyframes titleFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-1.5px); }
 }
