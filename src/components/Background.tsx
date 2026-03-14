@@ -23,10 +23,19 @@ export default function Background({ ascended = false }: BackgroundProps) {
       )}
 
       <div
-        className="absolute inset-0 flex flex-col justify-center transition-opacity duration-700"
-        style={{ opacity: ascended ? 0.25 : 0.07 }}
+        className="absolute transition-opacity duration-700"
+        style={{
+          opacity: ascended ? 0.25 : 0.07,
+          top: '-2rem',
+          left: 0,
+          right: 0,
+          bottom: '-2rem',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-evenly',
+        }}
       >
-        {Array.from({ length: 24 }).map((_, row) => (
+        {Array.from({ length: 30 }).map((_, row) => (
           <div
             key={row}
             className="whitespace-nowrap"
