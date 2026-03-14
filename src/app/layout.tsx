@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "BONE SMASHING — The Looksmaxxing Simulator",
+  title: "BONESMASH: the looksmaxxing simulator",
   description: "Click a 3D face with a hammer to bone smash it into a chiseled jawline. An ironic looksmaxxing parody game.",
 };
 

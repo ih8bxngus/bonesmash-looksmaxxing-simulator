@@ -41,7 +41,7 @@ export default function Background({ ascended = false }: BackgroundProps) {
                   backgroundSize: '150px 100%',
                   backgroundRepeat: 'repeat-x',
                   willChange: 'transform',
-                  animation: `scrollTile ${17 + (row % 5) * 2}s linear infinite ${row % 2 === 0 ? 'normal' : 'reverse'}`,
+                  animation: `scrollTile ${23 + (row % 5) * 3}s linear infinite ${row % 2 === 0 ? 'normal' : 'reverse'}`,
                 }}
               />
             </div>
@@ -77,10 +77,10 @@ export default function Background({ ascended = false }: BackgroundProps) {
       <style jsx>{`
         @keyframes scrollTile {
           from {
-            transform: translateX(0) translateZ(0);
+            transform: translateX(0px) translateZ(0);
           }
           to {
-            transform: translateX(-50%) translateZ(0);
+            transform: translateX(-150px) translateZ(0);
           }
         }
         @keyframes scrollBg {
