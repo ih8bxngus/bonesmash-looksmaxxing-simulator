@@ -36,7 +36,7 @@ export default function GameUI({
   const [shareImageBlob, setShareImageBlob] = useState<Blob | null>(null)
   const ascended = totalHits >= MAX_HITS
 
-  const shareUrl = typeof window !== 'undefined' ? window.location.origin : 'https://bonesmashing.com'
+  const shareUrl = 'https://bonesmash.fun'
   const shareText = `I just ASCENDED in Bonesmash! ${totalHits} smashes to reach peak aesthetics. Can you do it?`
   const shareImageUrl = getShareImageUrl()
 
@@ -61,7 +61,15 @@ export default function GameUI({
     a.click()
   }
 
-  const handleShareTwitter = () => {
+  const handleShareTwitter = async () => {
+    // Copy share image to clipboard so user can paste it into the tweet
+    if (shareImageBlob) {
+      try {
+        await navigator.clipboard.write([
+          new ClipboardItem({ 'image/png': shareImageBlob })
+        ])
+      } catch {}
+    }
     const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`
     window.open(url, '_blank', 'noopener,noreferrer')
   }
