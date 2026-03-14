@@ -22,42 +22,58 @@ export default function Background({ ascended = false }: BackgroundProps) {
         />
       )}
 
-      <div
-        className="absolute transition-opacity duration-700"
-        style={{
-          opacity: ascended ? 0.25 : 0.07,
-          top: '-2rem',
-          left: 0,
-          right: 0,
-          bottom: '-2rem',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'space-evenly',
-        }}
-      >
-        {Array.from({ length: 30 }).map((_, row) => (
-          <div
-            key={row}
-            className="whitespace-nowrap"
-            style={{
-              fontFamily: "Impact, 'Arial Black', sans-serif",
-              fontSize: '1.4rem',
-              color: ascended ? '#FFFFFF' : '#FFD700',
-              lineHeight: '2rem',
-              letterSpacing: '-0.05em',
-              animation: `scrollBg ${20 + row * 2}s linear infinite`,
-              animationDirection: row % 2 === 0 ? 'normal' : 'reverse',
-            }}
-          >
-            {ascended
-              ? Array(40).fill('ASCENDED · ').join('')
-              : Array(32).fill('BONESMASH · ').join('')
-            }
-          </div>
-        ))}
-      </div>
+      {/* Before state: tiled logo rows scrolling in alternating directions */}
+      {!ascended && (
+        <div className="absolute inset-0" style={{ opacity: 0.25 }}>
+          {Array.from({ length: 12 }).map((_, row) => (
+            <div
+              key={row}
+              style={{
+                height: `${100 / 12}%`,
+                backgroundImage: 'url(/bonesmash-tile.png)',
+                backgroundSize: '150px 100%',
+                backgroundRepeat: 'repeat-x',
+                animation: `scrollTile ${17 + (row % 5) * 2}s linear infinite ${row % 2 === 0 ? 'normal' : 'reverse'}`,
+              }}
+            />
+          ))}
+        </div>
+      )}
+
+      {/* Ascended state: scrolling text */}
+      {ascended && (
+        <div
+          className="absolute inset-0 overflow-hidden"
+          style={{ opacity: 0.25 }}
+        >
+          {Array.from({ length: 30 }).map((_, row) => (
+            <div
+              key={row}
+              className="whitespace-nowrap"
+              style={{
+                fontFamily: "Impact, 'Arial Black', sans-serif",
+                fontSize: '1.4rem',
+                color: '#FFFFFF',
+                lineHeight: '2rem',
+                letterSpacing: '-0.05em',
+                animation: `scrollBg ${25 + (row % 5) * 3}s linear infinite ${row % 2 === 0 ? 'normal' : 'reverse'}`,
+              }}
+            >
+              {Array(40).fill('ASCENDED · ').join('')}
+            </div>
+          ))}
+        </div>
+      )}
 
       <style jsx>{`
+        @keyframes scrollTile {
+          from {
+            background-position: 0 0;
+          }
+          to {
+            background-position: -150px 0;
+          }
+        }
         @keyframes scrollBg {
           from {
             transform: translateX(0%);
