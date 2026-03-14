@@ -65,6 +65,8 @@ export default function MorphHead({
   const scaleRef = useRef(1)
   const groupRef = useRef<THREE.Group>(null)
   const floatTimeRef = useRef(0)
+  const mouseRef = useRef({ x: 0, y: 0 })
+  const targetRotRef = useRef({ x: 0, y: 0 })
   const [swapped, setSwapped] = useState(false)
 
   const beforeGltf = useGLTF('/models/before.glb')
@@ -209,6 +211,18 @@ export default function MorphHead({
     [data, swapped, onHit, onImpactPosition]
   )
 
+  // Track mouse position for head follow
+  useMemo(() => {
+    if (typeof window === 'undefined') return
+    const onMove = (e: MouseEvent) => {
+      // Normalize to -1..1
+      mouseRef.current.x = (e.clientX / window.innerWidth) * 2 - 1
+      mouseRef.current.y = (e.clientY / window.innerHeight) * 2 - 1
+    }
+    window.addEventListener('mousemove', onMove)
+    return () => window.removeEventListener('mousemove', onMove)
+  }, [])
+
   useFrame(({ camera }) => {
     displayMorphRef.current += (morphProgress - displayMorphRef.current) * 0.08
     const dm = displayMorphRef.current
@@ -302,10 +316,19 @@ export default function MorphHead({
     floatTimeRef.current += 0.015
     const floatY = Math.sin(floatTimeRef.current) * 0.03
     const floatX = Math.sin(floatTimeRef.current * 0.7) * 0.02
+
+    // Smooth head rotation toward cursor (max ~3 degrees)
+    const maxRot = 0.05 // ~3 degrees
+    targetRotRef.current.y = mouseRef.current.x * maxRot
+    targetRotRef.current.x = mouseRef.current.y * maxRot * 0.5
+
     if (groupRef.current) {
       groupRef.current.position.x = floatX
       groupRef.current.position.y = -0.225 + floatY
       groupRef.current.scale.setScalar(scaleRef.current)
+      // Lerp rotation for smooth follow
+      groupRef.current.rotation.y += (targetRotRef.current.y - groupRef.current.rotation.y) * 0.08
+      groupRef.current.rotation.x += (targetRotRef.current.x - groupRef.current.rotation.x) * 0.08
     }
 
     // Screen shake
