@@ -30,12 +30,21 @@ export default function Background({ ascended = false }: BackgroundProps) {
               key={row}
               style={{
                 height: `${100 / 12}%`,
-                backgroundImage: 'url(/bonesmash-tile.png)',
-                backgroundSize: '150px 100%',
-                backgroundRepeat: 'repeat-x',
-                animation: `scrollTile ${17 + (row % 5) * 2}s linear infinite ${row % 2 === 0 ? 'normal' : 'reverse'}`,
+                overflow: 'hidden',
               }}
-            />
+            >
+              <div
+                style={{
+                  width: '200%',
+                  height: '100%',
+                  backgroundImage: 'url(/bonesmash-tile.png)',
+                  backgroundSize: '150px 100%',
+                  backgroundRepeat: 'repeat-x',
+                  willChange: 'transform',
+                  animation: `scrollTile ${17 + (row % 5) * 2}s linear infinite ${row % 2 === 0 ? 'normal' : 'reverse'}`,
+                }}
+              />
+            </div>
           ))}
         </div>
       )}
@@ -68,10 +77,10 @@ export default function Background({ ascended = false }: BackgroundProps) {
       <style jsx>{`
         @keyframes scrollTile {
           from {
-            background-position: 0 0;
+            transform: translateX(0) translateZ(0);
           }
           to {
-            background-position: -150px 0;
+            transform: translateX(-50%) translateZ(0);
           }
         }
         @keyframes scrollBg {
